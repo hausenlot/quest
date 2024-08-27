@@ -1,24 +1,5 @@
-# README
+# First Rails 7 project.
+# Learned the barebones of turbo. Very good tech
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# As of first commit front end is bare bones going to take care the back end first
+# Trying to host this to Render
