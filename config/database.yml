@@ -2,20 +2,22 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: 5
+  username: <%= ENV['DATABASE_USER'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
+  host: <%= ENV['DATABASE_HOST'] %>
+  port: <%= ENV['DATABASE_PORT'] %>
+
+development:
+  <<: *default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  database: todo
   username: root
   password: 12341234
   host: localhost
 
-development:
-  <<: *default
-  database: todo
-
 production:
-  adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  database: my_app_production
-  username: <%= ENV['DATABASE_USER'] %>
-  password: <%= ENV['DATABASE_PASSWORD'] %>
-  host: <%= ENV['DATABASE_HOST'] %>
+  <<: *default
+  database: my_app_production_s8yo
 
