@@ -1,0 +1,2 @@
+<%= turbo_stream.append "quests", partial: "quest", locals: { quest: @quest } %>
+<%= turbo_stream.replace "new_quest_form", partial: "form", locals: { quest: Quest.new } %>

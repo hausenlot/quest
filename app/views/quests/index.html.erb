@@ -1,0 +1,11 @@
+<h1>Quests</h1>
+
+<%= turbo_frame_tag "quests" do %>
+  <% @quests.each do |quest| %>
+    <%= render quest %>
+  <% end %>
+<% end %>
+
+<%= turbo_frame_tag "new_quest_form" do %>
+  <%= render 'form', quest: @quest %>
+<% end %>

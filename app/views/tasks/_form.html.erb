@@ -1,0 +1,11 @@
+<%= form_with model: [quest, task], data: { turbo_frame: dom_id(quest, :tasks) } do |form| %>
+  <%= form.text_field :task, placeholder: "Enter task title" %>
+  <%= form.submit "Add Task" %>
+  <% if task.errors.any? %>
+    <div class="errors">
+      <% task.errors.full_messages.each do |message| %>
+        <p><%= message %></p>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

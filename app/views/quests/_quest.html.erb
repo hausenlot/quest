@@ -1,0 +1,21 @@
+<li id="<%= dom_id(quest) %>" 
+    data-controller="quest editable"
+    data-type="quest"
+    data-quest-id="<%= quest.id %>">
+
+  <span data-editable-target="text">
+    <%= link_to quest.title, "#", data: { action: "click->quest#toggleTasks" } %>
+  </span>
+  <%= link_to 'Edit', '#', data: { action: 'click->editable#edit' }, class: "edit-link" %>
+  <%= link_to 'Delete', quest_path(quest), data: { turbo_method: :delete, controller: "delete", action: "click->delete#confirm" }, class: "delete-link" %>
+
+  <div class="tasks" id="tasks_<%= quest.id %>" style="display: none;">
+    <%= turbo_frame_tag dom_id(quest, :tasks) do %>
+      <%= render quest.tasks %>
+    <% end %>
+    
+    <%= turbo_frame_tag "new_task_form_#{quest.id}" do %>
+      <%= render 'tasks/form', quest: quest, task: Task.new %>
+    <% end %>
+  </div>
+</li>

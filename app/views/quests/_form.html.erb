@@ -1,0 +1,11 @@
+<%= form_with model: quest, data: { turbo_frame: "quests" }, html: { class: "new-quest-form" } do |form| %>
+  <%= form.text_field :title, placeholder: "Enter quest title" %>
+  <%= form.submit "Create Quest" %>
+  <% if quest.errors.any? %>
+    <div class="errors">
+      <% quest.errors.full_messages.each do |message| %>
+        <p><%= message %></p>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

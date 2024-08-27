@@ -1,0 +1,3 @@
+<%= turbo_stream.append dom_id(@quest, :tasks) do %>
+  <%= render @quest.tasks %>
+<% end %>

@@ -1,0 +1,15 @@
+<div  id="<%= dom_id(task) %>" 
+      data-controller="editable" 
+      data-type="task"
+      data-task-id="<%= task.id %>" 
+      data-quest-id="<%= task.quest_id %>" 
+      class="<%= 'completed-task' if task.status %>">
+  <p>
+    "<%= dom_id(task) %>"
+    <span data-editable-target="text">
+      <%= link_to task.task, toggle_status_quest_task_path(task.quest, task), data: { turbo_method: :patch }, class: "task-link"%>
+    </span>
+    <%= link_to 'Edit', '#', data: { action: 'click->editable#edit' }, class: "edit-link" %>
+    <%= link_to 'Delete', quest_task_path(task.quest, task), data: { turbo_method: :delete, controller: "delete", action: "click->delete#confirm" }, class: "delete-link" %>
+  </p>
+</div>
