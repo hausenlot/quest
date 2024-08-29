@@ -3,6 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.2.0"
 
+gem 'devise'
 gem 'pg', '~> 1.5', '>= 1.5.7'
 
 group :development do
@@ -79,3 +80,5 @@ group :test do
   gem "selenium-webdriver"
 
 end
+
+gem "dockerfile-rails", ">= 1.6", :group => :development

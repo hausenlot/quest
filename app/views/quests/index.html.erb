@@ -1,11 +1,29 @@
 <h1>Quests</h1>
 
-<%= turbo_frame_tag "quests" do %>
-  <% @quests.each do |quest| %>
-    <%= render quest %>
+<% if user_signed_in? %>
+  <%= turbo_frame_tag "quests" do %>
+    <% @quests.each do |quest| %>
+      <%= render quest %>
+    <% end %>
   <% end %>
-<% end %>
+  <%= turbo_frame_tag "new_quest_form" do %>
+    <%= render 'form', quest: @quest %>
+  <% end %>
+<% else %>
 
-<%= turbo_frame_tag "new_quest_form" do %>
-  <%= render 'form', quest: @quest %>
+  <div data-controller="trunc">
+    <button data-action="click->trunc#truncate">Clear Local Data</button>
+  </div>
+
+  <div data-controller="indexdb">
+    <turbo-frame id="items-list">
+      <ul data-indexdb-target="list">
+      </ul>
+    </turbo-frame>
+
+    <form data-indexdb-target="form" data-action="submit->indexdb#submitForm">
+      <input type="text" name="title" data-indexdb-target="title">
+      <button type="submit">Add Item</button>
+    </form>
+  </div>  
 <% end %>

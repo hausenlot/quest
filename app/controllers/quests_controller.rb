@@ -1,4 +1,5 @@
 class QuestsController < ApplicationController
+  # before_action :authenticate_user!, except: [:index, :show]
   include QuestsHelper
   
   def index
