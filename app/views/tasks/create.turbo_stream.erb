@@ -1,3 +1,2 @@
-<%= turbo_stream.append dom_id(@quest, :tasks) do %>
-  <%= render @quest.tasks %>
-<% end %>
+<%= turbo_stream.append "task", partial: "task", locals: {task: @task} %>
+<%= turbo_stream.update "new_task_form", partial: "form", locals: { quest: @quest, task: Task.new } %>

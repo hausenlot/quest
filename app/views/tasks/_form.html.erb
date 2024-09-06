@@ -1,8 +1,16 @@
-<%= form_with model: [quest, task], data: { turbo_frame: dom_id(quest, :tasks) } do |form| %>
-  <%= form.text_field :task, placeholder: "Enter task title" %>
-  <%= form.submit "Add Task" %>
+<%= form_with model: [quest, task], data: { turbo_frame: "new_task_form" }, html: { class: "new_task_form flex items-center" } do |form| %>
+  <div class="relative w-full flex items-center">
+    <!-- Submit Button -->
+    <%= form.button type: "submit", class: "absolute px-2 left-0 inset-y-0 z-10 p-0 bg-transparent rounded-l-md flex items-center justify-center" do %>
+      <svg class="w-[30px] h-[30px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
+      </svg>
+    <% end %>
+    <%= form.text_field :task, placeholder: "Add Task", class: "h-10 pl-12 py-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
+  </div>
+
   <% if task.errors.any? %>
-    <div class="errors">
+    <div class="errors mt-2 text-red-600">
       <% task.errors.full_messages.each do |message| %>
         <p><%= message %></p>
       <% end %>

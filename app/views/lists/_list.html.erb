@@ -1,21 +1,21 @@
-<li id="<%= dom_id(task) %>" class="py-4 border-b border-gray-200 dark:border-gray-700">
+<li id="<%= dom_id(list) %>" class="py-4 border-b border-gray-200 dark:border-gray-700">
   <div class="flex items-center px-4 space-x-4 justify-between">
+    <!-- Color Box -->
+    <div class="flex-shrink-0 rounded" style="background-color: <%= list.color %>; width: 25px; height: 25px;">
+    </div>
 
-    <!-- Check box-->
-    <input type="checkbox" class="mr-2 rounded" />
     <!-- List Item Text -->
     <button 
       type="button" 
       class="flex-1 min-w-0 text-left p-0 m-0 focus:outline-none w-full">
-      <span><%= task.task %></span>
+      <span><%= list.list %></span>
     </button>
 
     <!-- Delete Button -->
-    <%= button_to quest_task_path(task.quest, task), method: :delete, data: { turbo_method: :delete } do %>
+    <%= button_to list_path(list), method: :delete, data: { turbo_method: :delete } do %>
       <svg class="w-6 h-6 text-red-500 dark:text-red-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
         <path fill-rule="evenodd" d="M8.586 2.586A2 2 0 0 1 10 2h4a2 2 0 0 1 2 2v2h3a1 1 0 1 1 0 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a1 1 0 0 1 0-2h3V4a2 2 0 0 1 .586-1.414ZM10 6h4V4h-4v2Zm1 4a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Zm4 0a1 1 0 1 0-2 0v8a1 1 0 1 0 2 0v-8Z" clip-rule="evenodd"/>
       </svg>
     <% end %>
   </div>
 </li>
-

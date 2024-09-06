@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["text"]
 
-edit(event) {
+  edit(event) {
     event.preventDefault();
     
     const Type = this.element.dataset.type;

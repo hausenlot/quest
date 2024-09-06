@@ -1,8 +1,23 @@
-<%= form_with model: quest, data: { turbo_frame: "quests" }, html: { class: "new-quest-form" } do |form| %>
-  <%= form.text_field :title, placeholder: "Enter quest title" %>
-  <%= form.submit "Create Quest" %>
+<%= form_with model: quest, data: { turbo_frame: "new_quest_form" }, html: { class: "new-quest-form flex items-center" } do |form| %>
+  <div class="relative w-full">
+    <%= form.button type: "submit", class: "absolute px-2 left-0 inset-y-0 z-10 p-0 bg-transparent rounded-l-md flex items-center justify-center" do %>
+      <svg class="w-[30px] h-[30px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
+      </svg>
+    <% end %>
+    <%= form.text_field :title, placeholder: "Enter Task", class: "pl-12 py-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
+  </div>
+  
+  <%= form.hidden_field :list_id %>
+  <%= form.hidden_field :description %>
+  <%= form.hidden_field :start_date %>
+  <%= form.hidden_field :due_date %>
+  <%= form.hidden_field :start_hour %>
+  <%= form.hidden_field :due_hour %>
+  <%= form.hidden_field :user, value: current_user.id %> 
+
   <% if quest.errors.any? %>
-    <div class="errors">
+    <div class="errors mt-2 text-red-600">
       <% quest.errors.full_messages.each do |message| %>
         <p><%= message %></p>
       <% end %>

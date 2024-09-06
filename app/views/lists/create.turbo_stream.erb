@@ -1,0 +1,2 @@
+<%= turbo_stream.append "lists", partial: "list", locals: { list: @list } %>
+<%= turbo_stream.update "new_list_form", partial: "form", locals: { list: List.new } %>

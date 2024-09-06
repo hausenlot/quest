@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* * {
+  transition: background-color 0.3s, color 0.3s;
+} */
+
+body {
+  background-color: #f9fafb;
+  color: #111827;
+}
+
+body.dark-mode {
+  background-color: #1f2937;
+  color: #f9fafb;
+}
+
+button {
+  text-align: left;
+}
+
+.hidden {
+  display: none;
+}
+
+.main-content {
+  transition: margin-right 0.3s ease; /* Adjust margin when sidebar is visible */
+}
+
+.main-content.with-sidebar {
+  margin-right: 50%; /* Shift the content to the left by reducing the right margin */
+}

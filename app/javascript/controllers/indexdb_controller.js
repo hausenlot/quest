@@ -124,8 +124,8 @@ export default class extends Controller {
         <template>
           <li id="item-${id}">
             ${title}
-            <button data-action="click->indexdb#editItem" data-id="${id}">Edit</button>
-            <button data-action="click->indexdb#deleteItem" data-id="${id}">Delete</button>
+            <button class='btn btn-sm btn-warning' data-action="click->indexdb#editItem" data-id="${id}">Edit</button>
+            <button class='btn btn-sm btn-danger' data-action="click->indexdb#deleteItem" data-id="${id}">Delete</button>
           </li>
         </template>
       </turbo-stream>
@@ -139,8 +139,8 @@ export default class extends Controller {
         <template>
           <li id="item-${id}">
             ${title}
-            <button data-action="click->item-indexdb#editItem" data-id="${id}">Edit</button>
-            <button data-action="click->item-indexdb#deleteItem" data-id="${id}">Delete</button>
+            <button class='btn btn-sm btn-warning' data-action="click->item-indexdb#editItem" data-id="${id}">Edit</button>
+            <button class='btn btn-sm btn-danger' data-action="click->item-indexdb#deleteItem" data-id="${id}">Delete</button>
           </li>
         </template>
       </turbo-stream>

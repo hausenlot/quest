@@ -1,0 +1,20 @@
+<%= form_with model: list, data: { turbo_frame: "new_list_form" }, html: { class: "new_list_form flex items-center" } do |form| %>
+  <div class="relative w-full flex items-center">
+    <!-- Submit Button -->
+    <%= form.button type: "submit", class: "absolute px-2 left-0 inset-y-0 z-10 p-0 bg-transparent rounded-l-md flex items-center justify-center" do %>
+      <svg class="w-[30px] h-[30px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
+      </svg>
+    <% end %>
+    <%= form.text_field :list, placeholder: "Add List", class: "h-10 pl-12 py-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
+    <%= form.color_field :color, class: "h-10 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
+  </div>
+
+  <% if list.errors.any? %>
+    <div class="errors mt-2 text-red-600">
+      <% list.errors.full_messages.each do |message| %>
+        <p><%= message %></p>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

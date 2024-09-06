@@ -1,1 +1,2 @@
 <%= turbo_stream.remove dom_id(@quest) %>
+<%= turbo_stream.update "quests_counter", partial: "counter", locals: { quests: @quests } %>
