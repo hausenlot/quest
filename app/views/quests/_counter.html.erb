@@ -1,3 +1,10 @@
-<span class="inline-flex items-center justify-center w-5 h-5 p-5 ms-5 text-3xl font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
-  <%= quests.count %>
+<span id="quests_counter_content" 
+  class="inline-flex items-center justify-center ml-3 
+        w-8 h-8 text-xl 
+        sm:w-10 sm:h-10 sm:text-2xl 
+        md:w-12 md:h-12 md:text-3xl 
+        lg:w-14 lg:h-14 lg:text-4xl 
+        font-medium text-blue-800 bg-blue-100 rounded-lg 
+        dark:bg-blue-900 dark:text-blue-300">
+  <%= count <= 0 ? "0" : count %>
 </span>

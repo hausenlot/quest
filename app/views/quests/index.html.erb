@@ -1,33 +1,4 @@
 <% if user_signed_in? %>
-  <div class="flex items-center">
-    <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Today</h1>
-    <turbo-frame id="quests_counter">
-      <span id="quests_counter_content" class="inline-flex items-center justify-center w-5 h-5 p-5 ms-5 text-3xl font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
-        <%= @quests.count %>
-      </span>
-    </turbo-frame>
-  </div>
-  
-  <div class="flex flex-col w-full h-screen" data-controller="sidebar">
-    <div class="main-content w-full transition-all duration-300">
-      <%= turbo_frame_tag "new_quest_form", class: "mt-6" do %>
-        <%= render 'form', quest: @quest %>
-      <% end %>
-
-      <ul class="w-full">
-        <%= turbo_frame_tag "quests" do %>
-          <% @quests.each do |quest| %>
-            <%= render partial: "quest", locals: { quest: quest } %>
-          <% end %>
-        <% end %>
-      </ul>
-    </div>
-
-    <div class="fixed top-0 right-0 w-1/2 h-full bg-gray-50 dark:bg-gray-800 p-4 transform translate-x-full transition-transform duration-300 flex flex-col" data-sidebar-target="sidebar">
-      <div id="sidebar-content" data-sidebar-target="content" class="relative"></div>
-    </div>
-  </div>
-
 <% else %>
   <%# I am using IndexedDB here. Don't know how to re use the form partials without 
   fucking up due to the reasons that I dont know how to use a controller without a model.%>

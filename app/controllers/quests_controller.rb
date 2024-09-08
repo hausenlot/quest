@@ -7,27 +7,37 @@ class QuestsController < ApplicationController
   end
   
   def index
-    @quests = Quest.all
-    @quest = Quest.new
-    @lists = List.all
-    @list = List.new
-  end
-
-  def details
-    @lists = List.all
-    @quest = Quest.find(params[:id])
-    @tasks = Task.where(quest_id: params[:id])
-    respond_to do |format|
-      format.turbo_stream
+    if user_signed_in?
+      @quests = Quest.where(user: current_user.id)
+      @quest = Quest.new
+      @lists = List.where(user: current_user.id)
+      @list = List.new
+      render "quests/index_content"
     end
   end
 
+  def details
+    @lists = List.where(user: current_user.id)
+    @quest = Quest.find(params[:id])
+    @selected_list = List.find_by(id: @quest.list_id)
+    @tasks = Task.where(quest_id: params[:id]).order(created_at: :asc)
+  end
+
+  def category
+    @quest = Quest.new
+    @list = List.new
+    @lists = List.where(user: current_user.id)
+    @list_ = List.find(params[:category])
+    @quests = Quest.where(user: current_user.id).where(list_id: @list_.id)
+    render "shared/list_content"
+  end
 
   def create
     @quest = Quest.new(quest_params)
     set_defaults(@quest)
     if @quest.save
-      @quests = Quest.all
+      @quests = Quest.where(user: current_user.id).count
+      @lists = Quest.where(user: current_user.id).pluck(:list_id)
       respond_to do |format|
         format.html { redirect_to quests_path, notice: 'Quest was successfully created.' }
         format.turbo_stream
@@ -42,38 +52,63 @@ class QuestsController < ApplicationController
 
   def update
     @quest = Quest.find(params[:id])
+    checker = @quest.list_id != params[:quest][:list_id].to_i
     if @quest.update(quest_params)
+      @lists = List.where(user: current_user.id).pluck(:id)
+      flash.now[:notice] = 'Quest successfully updated!'
       respond_to do |format|
-        # format.turbo_stream { render turbo_stream: turbo_stream.update(quest_id(@quest), partial: "quest", locals: {quest: @quest}) }
-        # format.turbo_stream do
-        #   render turbo_stream: [
-        #     turbo_stream.remove(quest_id(@quest)),
-        #     turbo_stream.append('quests', partial: 'quests/quest', locals: { quest: @quest })
-        #   ]
-        # end
         format.turbo_stream do
-          render turbo_stream: turbo_stream.update( quest_id(@quest),partial: "quest_content",locals: { quest: @quest } )
+          turbo_streams = [
+            turbo_stream.update(quest_id(@quest), partial: "quest_content", locals: { quest: @quest }),
+            show_alert("Quest successfully updated!", "success"),
+            *@lists.map do |list|
+              turbo_stream.update("turbo_list_#{list}", partial: "shared/counter", locals: { count: Quest.where(list_id: list).count })
+            end
+          ]
+          # Conditionally add the `remove` turbo_stream
+          if checker == true
+            turbo_streams << turbo_stream.remove(quest_id(@quest))
+          end
+      
+          render turbo_stream: turbo_streams
         end
-        format.html { redirect_to quest_path(@quest) }
+        format.html { redirect_to quest_path(@quest), notice: 'Quest successfully updated!' }
       end
     else
-      # respond_to do |format|
-      #   format.turbo_stream do
-      #     render turbo_stream: turbo_stream.replace(task_dom_id(@task), partial: "tasks/form", locals: { task: @task })
-      #   end
-      #   format.html { render :edit }
-      # end
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: [
+            show_alert("Failed to update quest. Please check the form.", "error")
+          ]
+        end
+        format.html { render :edit }
+      end
     end
-  end
+  end  
 
   def destroy
     @quest = Quest.find(params[:id])
+    @lists = Quest.where(user: current_user.id).pluck(:list_id)
     @quest.destroy
-    @quests = Quest.all
+    @quests = Quest.where(user: current_user.id).count
     respond_to do |format|
       format.html { redirect_to quests_path, notice: 'Quest was successfully deleted.' }
       format.turbo_stream
     end
+  end
+
+  def toggle_status
+    @quest = Quest.find(params[:id])
+    @quest.update(completed: params[:completed])
+  
+    respond_to do |format|
+      format.json { head :no_content }
+      format.turbo_stream
+    end
+  end
+
+  def show_alert(message, type)
+    turbo_stream.replace "alert", partial: "shared/alert", locals: { message: message, type: type }
   end
 
   def render_login_form
@@ -98,6 +133,7 @@ class QuestsController < ApplicationController
       :title,
       :list_id,
       :description,
+      :completed,
       :user,
       :start_date,
       :due_date,

@@ -1,2 +1,6 @@
 <%= turbo_stream.remove dom_id(@quest) %>
-<%= turbo_stream.update "quests_counter", partial: "counter", locals: { quests: @quests } %>
+<%= turbo_stream.update "quests_counter", partial: "counter", locals: { count: @quests } %>
+<%= turbo_stream.update "sb_today_counter", partial: "shared/counter", locals: { count: @quests } %>
+<%@lists.each do |list|%>
+  <%= turbo_stream.update "turbo_list_#{list}", partial: "shared/counter", locals: { count: Quest.where(list_id: list).count } %>
+<%end%>

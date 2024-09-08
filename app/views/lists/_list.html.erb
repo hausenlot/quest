@@ -5,11 +5,13 @@
     </div>
 
     <!-- List Item Text -->
-    <button 
-      type="button" 
-      class="flex-1 min-w-0 text-left p-0 m-0 focus:outline-none w-full">
+    <%= button_to category_quests_path(category: list.id), method: :get, data: { turbo_frame: "content_frame" }, class: 'flex-1 min-w-0 text-left p-0 m-0 focus:outline-none w-full' do %>
       <span><%= list.list %></span>
-    </button>
+    <% end %>
+
+    <turbo-frame id="turbo_<%= dom_id(list)%>">
+      <%= render partial: "shared/counter", locals: { count: Quest.where(list_id: list.id).count } %>
+    </turbo-frame>
 
     <!-- Delete Button -->
     <%= button_to list_path(list), method: :delete, data: { turbo_method: :delete } do %>

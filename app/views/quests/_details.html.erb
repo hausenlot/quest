@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "quest_details" do %>
-  <div class="flex items-center mb-4">
+  <div class="flex items-center mb-6">
     <h2 class="text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
       Task:
     </h2>
@@ -33,8 +33,9 @@
           <button 
             data-action="click->dropdown#toggleDropdown" 
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" 
-            type="button">
-            List
+            type="button" 
+            data-dropdown-target="button">
+            <%= @selected_list.present? ? @selected_list.list : 'Select List' %>
             <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
             </svg>
@@ -45,8 +46,12 @@
             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
               <% @lists.each do |list| %>
                 <li>
-                  <%= form.radio_button :list_id, list.id, id: "list_#{list.id}", class: "hidden" %>
-                  <label for="list_<%= list.id %>" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                  <label 
+                    for="list_<%= list.id %>" 
+                    data-action="click->dropdown#selectItem" 
+                    data-list-id="<%= list.id %>" 
+                    data-list-name="<%= list.list %>" 
+                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                     <%= list.list %>
                   </label>
                 </li>
@@ -55,6 +60,8 @@
           </div>
         </div>
       </div>
+      <%= form.hidden_field :list_id, id: "list_id_field" %>
+
 
       <!-- Date Fields Side by Side -->
       <div class="mb-6 flex gap-4">
@@ -86,7 +93,7 @@
       class: "w-full text-center focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" %>
   <% end %>
   <div>
-    <h3 class="text-3xl font-bold dark:text-white">
+    <h3 class="text-3xl font-bold dark:text-white mb-4">
       Sub Task:
     </h3>
     <%= turbo_frame_tag "new_task_form", class: "mt-6" do %>

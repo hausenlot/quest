@@ -3,6 +3,10 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["sidebar"]
 
+  connect() {
+    console.log("Sidebar controller connected");
+  }
+
   toggleSidebar(event) {
     const questId = event.currentTarget.dataset.questId
     this.openSidebar()

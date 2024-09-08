@@ -16,17 +16,22 @@ class ListsController < ApplicationController
 
   def destroy
     @list = List.find(params[:id])
-    @list.destroy
-    respond_to do |format|
-      format.html { redirect_to quests_path, notice: 'Quest was successfully deleted.' }
-      format.turbo_stream
+    if @list.destroy
+      @task_affected = Quest.where(list_id: params[:id])
+      @task_affected.update(list_id: 0)
+      respond_to do |format|
+        format.html { redirect_to quests_path, notice: 'Quest was successfully deleted.' }
+        format.turbo_stream
+      end
+    else
+      # PLACE HOLDAH
     end
   end
 
   private
 
   def list_params
-    params.require(:list).permit(:list, :color, :user_id)
+    params.require(:list).permit(:list, :color, :user)
   end
 end
 

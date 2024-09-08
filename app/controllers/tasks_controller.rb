@@ -3,11 +3,10 @@ class TasksController < ApplicationController
 
   def toggle_status
     @task = Task.find(params[:id])
-    @task.update(status: !@task.status)
-
+    @task.update(status: params[:status])
     respond_to do |format|
-      format.turbo_stream { render turbo_stream: turbo_stream.replace(@task) }
-      format.html { redirect_to quest_path(@task.quest) }
+      format.json { head :no_content }
+      format.turbo_stream
     end
   end
 
@@ -64,6 +63,6 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:task)
+    params.require(:task).permit(:task, :status)
   end
 end

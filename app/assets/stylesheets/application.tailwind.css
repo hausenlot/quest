@@ -28,6 +28,22 @@ button {
   transition: margin-right 0.3s ease; /* Adjust margin when sidebar is visible */
 }
 
-.main-content.with-sidebar {
-  margin-right: 50%; /* Shift the content to the left by reducing the right margin */
+.sidebar {
+  height: 100vh; /* Full viewport height */
+  overflow-y: auto; /* Enable vertical scroll */
+  padding-bottom: 2rem; /* Add some bottom padding for better UX */
+}
+
+@media (max-width: 768px) {
+  /* Mobile Styles */
+  .sidebar {
+    width: 100%; /* Full width on mobile */
+    height: 100vh; /* Full screen height */
+    top: 0; /* Ensure it covers the entire height */
+    left: 0; /* Ensure it starts from the left */
+  }
+
+  .main-content {
+    margin-right: 0;
+  }
 }

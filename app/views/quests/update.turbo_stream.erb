@@ -1,1 +1,9 @@
 <%= turbo_stream.update "sidebar-content", partial: "details_form", locals: { quest: @quest } %>
+
+<%
+=begin %>
+<%@lists.each do |list|%>
+  <%= turbo_stream.update "turbo_list_#{list}", partial: "shared/counter", locals: { count: Quest.where(list_id: list).count } %>
+<%end%>
+<%
+=end %>
