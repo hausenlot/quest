@@ -1,16 +1,13 @@
-# fly.toml app configuration file generated for questlist-autumn-sun-6592 on 2024-08-28T17:52:24+08:00
+# fly.toml app configuration file generated for questlist on 2024-09-12T12:39:11+08:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'questlist-autumn-sun-6592'
-primary_region = 'nrt'
+app = 'questlist'
+primary_region = 'sin'
 console_command = '/rails/bin/rails console'
 
 [build]
-
-[deploy]
-  release_command = './bin/rails db:prepare'
 
 [http_service]
   internal_port = 3000
@@ -24,7 +21,10 @@ console_command = '/rails/bin/rails console'
   memory = '1gb'
   cpu_kind = 'shared'
   cpus = 1
+[deploy]
+  release_command = "./bin/rails db:prepare"
 
 [[statics]]
-  guest_path = '/rails/public'
-  url_prefix = '/'
+  guest_path = "/rails/public"
+  url_prefix = "/"
+
