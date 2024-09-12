@@ -6,6 +6,7 @@ ruby "3.2.0"
 gem 'devise'
 gem 'pg', '~> 1.5', '>= 1.5.7'
 gem 'cssbundling-rails'
+gem 'simple_calendar'
 
 group :development do
   gem 'byebug'

@@ -1,6 +1,7 @@
 class QuestsController < ApplicationController
   # before_action :authenticate_user!, except: [:index, :show]
   include QuestsHelper
+  include CalendarsHelper
 
   def after_sign_out_path_for(resource_or_scope)
     root_path
@@ -8,7 +9,7 @@ class QuestsController < ApplicationController
   
   def index
     if user_signed_in?
-      @quests = Quest.where(user: current_user.id)
+      @quests = Quest.where(user: current_user.id).where(start_date: Date.today)
       @quest = Quest.new
       @lists = List.where(user: current_user.id)
       @list = List.new
@@ -30,6 +31,23 @@ class QuestsController < ApplicationController
     @list_ = List.find(params[:category])
     @quests = Quest.where(user: current_user.id).where(list_id: @list_.id)
     render "shared/list_content"
+  end
+
+  def calendar
+    @quest = Quest.new
+    @list = List.new
+    @lists = List.where(user: current_user.id)
+    @quests = Quest.where(user: current_user.id)
+    @view = params[:view] || 'month'
+    case @view
+    when 'day'
+      @quests = Quest.where(start_date: Date.today).where(user: current_user.id)
+    when 'week'
+      @quests = Quest.where(start_date: Date.today.beginning_of_week..Date.today.end_of_week).where(user: current_user.id)
+    else
+      @quests = Quest.where(user: current_user.id)
+    end
+    render "shared/calendar"
   end
 
   def create
@@ -122,8 +140,8 @@ class QuestsController < ApplicationController
   def set_defaults(quest)
     quest.start_date ||= Date.today
     quest.due_date ||= Date.today
-    quest.start_hour ||= Time.current.strftime('%H:%M:%S') 
-    # quest.due_hour ||= Time.current.strftime('%H:%M:%S')
+    quest.start_hour ||= Time.now.strftime('%H:%M:%S') 
+    # quest.due_hour ||= Time.now.strftime('%H:%M:%S')
   end
 
   private

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :quests do
     collection do
       get 'category/:category', to: 'quests#category', as: :category
+      get 'calendar', to: 'quests#calendar', as: :calendar
     end
     member do
       get :details

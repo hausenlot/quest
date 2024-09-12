@@ -1,0 +1,45 @@
+<div class="flex justify-between items-center mb-4">
+  <h2 class="text-3xl font-bold"><%= Date.today.strftime("%A, %d %B %Y") %></h2>
+</div>
+
+<div class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg shadow-lg">
+  <div class="flex items-center justify-between mb-4">
+    <div class="flex space-x-2">
+      <%= link_to "Day", calendar_quests_path(view: 'day'), class: "bg-gray-200 text-gray-800 font-semibold py-1 px-3 rounded" %>
+      <%= link_to "Week", calendar_quests_path(view: 'week'), class: "bg-gray-200 text-gray-800 font-semibold py-1 px-3 rounded" %>
+      <%= link_to "Month", calendar_quests_path(view: 'month'), class: "bg-gray-200 text-gray-800 font-semibold py-1 px-3 rounded" %>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-[auto,1fr] gap-x-2" style="grid-template-rows: repeat(24, minmax(4rem, auto));">
+    <% 24.times do |i| %>
+      <% time = Time.new(2000, 1, 1, i, 0, 0) %>
+      
+      <!-- Time Column -->
+      <div class="pr-2 text-sm text-gray-500 self-start border-t border-gray-200 relative">
+        <%= format_12h_time(time) %>
+      </div>
+      
+      <!-- Quests Column -->
+      <div class="relative border-t border-gray-200">
+        <% quests_for_hour = @quests.select { |q| q.start_hour.hour == i } %>
+        <% num_quests = quests_for_hour.size %> <!-- Number of quests in this hour -->
+        
+        <% quests_for_hour.each_with_index do |quest, index| %>
+          <% slot_width = 100.0 / num_quests %> <!-- Divide the width equally -->
+          <div class="absolute p-1 rounded" 
+            style="<%= event_position_style(quest) %> width: <%= slot_width %>%; left: <%= index * slot_width %>%; background-color:<%= event_color_class(quest) %>;">
+            <div class="text-sm font-semibold">
+              <%= quest.title %> (<%= format_12h_time(quest.start_hour) %>)
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+
+
+

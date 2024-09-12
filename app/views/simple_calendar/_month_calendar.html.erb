@@ -1,0 +1,46 @@
+<div class="simple-calendar">
+  <div class="calendar-heading flex items-center justify-between mb-4">
+    <div class="flex space-x-2">
+      <%= link_to "Day", calendar_quests_path(view: 'day'), class: "bg-gray-200 text-gray-800 font-semibold py-1 px-3 rounded" %>
+      <%= link_to "Week", calendar_quests_path(view: 'week'), class: "bg-gray-200 text-gray-800 font-semibold py-1 px-3 rounded" %>
+      <%= link_to "Month", calendar_quests_path(view: 'month'), class: "bg-gray-200 text-gray-800 font-semibold py-1 px-3 rounded" %>
+    </div>
+    <nav class="flex space-x-2">
+      <%= link_to calendar.url_for_previous_view, class: "inline-flex items-center" do %>
+        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/>
+        </svg>
+      <% end %>
+      <%= link_to t('simple_calendar.today', default: 'Today'), calendar.url_for_today_view %>
+      <%= link_to calendar.url_for_next_view, class: "inline-flex items-center" do %>
+        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
+        </svg>
+      <% end %>
+    </nav>
+  </div>
+
+  <table class="w-full border-collapse table-fixed">
+    <thead>
+      <tr>
+        <% date_range.slice(0, 7).each do |day| %>
+          <th class="p-1 text-left text-xs sm:text-sm md:text-base w-1/7">
+            <%= t('date.abbr_day_names')[day.wday] %>
+          </th>
+        <% end %>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% date_range.each_slice(7) do |week| %>
+        <tr>
+          <% week.each do |day| %>
+            <%= content_tag :td, class: "p-0 relative w-1/7" do %>
+              <% instance_exec(day, calendar.sorted_events_for(day), &passed_block) %>
+            <% end %>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

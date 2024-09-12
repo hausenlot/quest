@@ -1,0 +1,74 @@
+<div class="simple-calendar">
+  <div class="calendar-heading flex items-center justify-between mb-4">
+    <div class="flex space-x-2">
+      <%= link_to "Day", calendar_quests_path(view: 'day'), class: "bg-gray-200 text-gray-800 font-semibold py-1 px-3 rounded" %>
+      <%= link_to "Week", calendar_quests_path(view: 'week'), class: "bg-gray-200 text-gray-800 font-semibold py-1 px-3 rounded" %>
+      <%= link_to "Month", calendar_quests_path(view: 'month'), class: "bg-gray-200 text-gray-800 font-semibold py-1 px-3 rounded" %>
+    </div>
+    <nav class="flex space-x-2">
+      <%= link_to calendar.url_for_previous_view, class: "inline-flex items-center" do %>
+        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7"/>
+      </svg>
+      <% end %>
+      <%= link_to t('simple_calendar.today', default: 'Today'), calendar.url_for_today_view %>
+      <%= link_to calendar.url_for_next_view, class: "inline-flex items-center" do %>
+        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7"/>
+        </svg>
+      <% end %>
+    </nav>
+  </div>
+
+  <table class="w-full border-collapse table-fixed">
+    <thead>
+      <tr>
+        <th class="text-left text-xs sm:text-sm md:text-base w-1/8"></th>
+        <% date_range.slice(0, 7).each do |day| %>
+          <th class="text-left text-xs sm:text-sm md:text-base w-1/8">
+            <%= t('date.abbr_day_names')[day.wday] %>
+          </th>
+        <% end %>
+    </thead>
+
+    <tbody>
+      <% current_hour = Time.now.hour %>
+      <% (0..23).each do |hour| %>
+        <tr style="height: 60px;">
+          <td class="text-center text-xs sm:text-sm md:text-base border-r border-t border-gray-300">
+            <%= "#{hour}:00" %>
+          </td>
+          <% date_range.each do |day| %>
+            <td class="relative border-r border-gray-300" style="overflow: visible;">
+              <% if current_hour == hour %>
+                <svg class="absolute top-1/2 left-0 w-full h-1" xmlns="http://www.w3.org/2000/svg" style="pointer-events: none; z-index: 100;">
+                  <line x1="0" y1="0" x2="100%" y2="0" stroke="black" stroke-width="5" />
+                </svg>
+              <% end %>
+              <% quests_for_day = calendar.sorted_events_for(day).select do |quest|
+                quest.start_hour.present? && quest.start_hour.hour <= hour && (quest.due_hour.present? ? quest.due_hour.hour > hour : true)
+              end %>
+              
+              <% quests_for_day.each do |quest| %>
+                <% list_color = List.find(quest.list_id).color rescue '#808080' %>
+                <% start_hour = quest.start_hour.hour
+                  end_hour = quest.due_hour.present? ? quest.due_hour.hour : 24 %>
+
+                <% if start_hour == hour %>
+                  <div class="absolute left-0 w-full"
+                      style="top: <%= (start_hour <= hour ? 0 : (start_hour - hour) * 60) %>px; 
+                              height: <%= [(end_hour - start_hour) * 60, (24 - hour) * 60].min %>px; 
+                              background-color: <%= list_color %>;">
+                    <div class="truncate text-white p-1">
+                      <%= quest.title %>
+                    </div>
+                  </div>
+                <% end %>
+              <% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
