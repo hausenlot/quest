@@ -1,11 +1,11 @@
 # First Rails 7 project that I built alone.
 # This project is preferrebly good in desktop 16:9 aspect ratio. 
-# I tried making it scale on different aspect ratio and it worked but not so good you can just check it out for yourself and judge it.
-# It took 4 weeks, Really slow I know. I hate how that procastinating took a lot more times than me actually coding this. Meaning I was stucked for really long time and cant find answers.
-# I copied this template https://uizard.io/templates/website-templates/to-do-website/ the only thing I copied is how it looks, Every code that on this project is mine alone.
-# This project is for myself only, If there's a chance someone want to us this for something i dont know please dont get me involve hahahaha.
-# I learned a lot. I now know I sucked at programming, Im a noob basically even coding for 2 years.
-# I used things that I dont know like PostgreSQL, Tailwind, turbo and Stimulus controllers and I really learned a lot.
+I tried making it scale on different aspect ratio and it worked but not so good you can just check it out for yourself and judge it.
+It took 4 weeks, Really slow I know. I hate how that procastinating took a lot more times than me actually coding this. Meaning I was stucked for really long time and cant find answers.
+I copied this template https://uizard.io/templates/website-templates/to-do-website/ the only thing I copied is how it looks, Every code that on this project is mine alone.
+This project is for myself only, If there's a chance someone want to us this for something i dont know please dont get me involve hahahaha.
+I learned a lot. I now know I sucked at programming, Im a noob basically even coding for 2 years.
+I used things that I dont know like PostgreSQL, Tailwind, turbo and Stimulus controllers and I really learned a lot.
 
 # As of 09/12/2024
 # Things that is finished
@@ -43,14 +43,13 @@
 
 # Things to add
 - Upcoming tab
+- Seems like indexedDB doesnt work. Need a total overhaul for local task.
+- Need to add a banner(?) To say that this is a hobby project and please I want to waive off the 5$ pay from fly.io HAHAHAHAHA
 
 # Things to fix
-- Today Query is not today its all
-- Make sure that the query always have the user or make sure that its unique to the user (So far so good I created a new user an havent seen any issues)
-- Tag/list is not updating when its created in the Tag/list content
+- Tag/list counters is not updating when its created in the Tag/list content
 
 # Things to improve
 - Side (right) Items not aligned
 - The Save indicator overlaps the close button
 - The Week and Day view doesnt look appealing from what I copied the template.
-- 
